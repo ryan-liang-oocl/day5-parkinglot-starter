@@ -24,7 +24,7 @@ public class ParkingLot {
     public Car fetch(Ticket ticket) {
         Car car = parkingRecords.remove(ticket);
         if (car != null) {
-            capacity--;
+            capacity++;
         }
         return car;
     }
