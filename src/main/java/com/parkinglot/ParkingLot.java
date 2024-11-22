@@ -23,12 +23,14 @@ public class ParkingLot {
     }
 
     public Car fetch(Ticket ticket) {
-        Car car = parkingRecords.remove(ticket);
-        if (car == null) {
-            throw new RuntimeException(UNRECOGNIZED_PARKING_TICKET_MSG);
-        } else  {
-            capacity++;
+        if (ticket.isUsed()) {
+            throw UnrecognizedException.reusedTicket();
         }
-        return car;
+        if (!parkingRecords.containsKey(ticket)) {
+            throw UnrecognizedException.wrongTicket();
+        }
+        ticket.setUsed(true);
+        capacity++;
+        return parkingRecords.remove(ticket);
     }
 }

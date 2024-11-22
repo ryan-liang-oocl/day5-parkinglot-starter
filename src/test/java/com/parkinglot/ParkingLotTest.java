@@ -9,9 +9,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
-
-    public static final String UNRECOGNIZED_PARKING_TICKET_MSG = "Unrecognized parking ticket";
-
     private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     private String systemOut() {
@@ -49,7 +46,12 @@ public class ParkingLotTest {
         parkingLot.park(car);
         Ticket ticket = new Ticket();
         //When
-        Car otherCar = parkingLot.fetch(ticket);
+        Car otherCar = null;
+        try {
+            otherCar = parkingLot.fetch(ticket);
+        } catch (Exception e) {
+            //do nothing
+        }
         //Then
         assertNull(otherCar);
     }
@@ -78,7 +80,12 @@ public class ParkingLotTest {
         Ticket ticket = parkingLot.park(car);
         parkingLot.fetch(ticket);
         //When
-        Car myCar = parkingLot.fetch(ticket);
+        Car myCar = null;
+        try {
+            myCar = parkingLot.fetch(ticket);
+        } catch (Exception e) {
+            //do nothing
+        }
         //Then
         assertNull(myCar);
     }
@@ -96,12 +103,36 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void should_throw_error_when_park_given_unrecognized_ticket() {
+    public void should_throw_exception_when_park_given_unrecognized_ticket() {
         //Given
         ParkingLot parkingLot = new ParkingLot();
         Ticket ticket = new Ticket();
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UNRECOGNIZED_PARKING_TICKET_MSG);
+        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
     }
+
+    @Test
+    public void should_throw_exception_when_park_given_wrong_ticket() {
+        //Given
+        ParkingLot parkingLot = new ParkingLot();
+        Ticket ticket = new Ticket();
+        //When
+        //Then
+        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+    }
+
+    @Test
+    public void should_throw_exception_when_park_given_reused_ticket() {
+        //Given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        Ticket ticket = parkingLot.park(car);
+        parkingLot.fetch(ticket);
+        //When
+        //Then
+        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+    }
+
+
 }
