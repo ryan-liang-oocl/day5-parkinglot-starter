@@ -7,21 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingBoy {
-    protected List<ParkingLot> parkingLotList;
-    protected List<Ticket> ticketList;
+    protected List<ParkingLot> parkingLotList = new ArrayList<>();
+    protected List<Ticket> ticketList = new ArrayList<>();
 
     private ParkingStrategy parkingStrategy = new FirstAvailableParkingStrategy();
 
     public ParkingBoy(ParkingStrategy parkingStrategy) {
-        parkingLotList = new ArrayList<>();
-        ticketList = new ArrayList<>();
         this.parkingStrategy = parkingStrategy;
     }
 
-    public ParkingBoy() {
-        parkingLotList = new ArrayList<>();
-        ticketList = new ArrayList<>();
-    }
+    public ParkingBoy() {}
 
     public void addParkingLot(ParkingLot parkingLot) {
         parkingLotList.add(parkingLot);
