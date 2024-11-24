@@ -2,7 +2,6 @@ package com.parkinglot;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -104,7 +103,7 @@ public class ParkingLotTest {
         Ticket ticket = new Ticket();
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), TicketException.WRONG_TICKET_MSG);
     }
 
     @Test
@@ -114,7 +113,7 @@ public class ParkingLotTest {
         Ticket ticket = new Ticket();
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), TicketException.WRONG_TICKET_MSG);
     }
 
     @Test
@@ -126,7 +125,7 @@ public class ParkingLotTest {
         parkingLot.fetch(ticket);
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+        assertThrows(RuntimeException.class, () -> parkingLot.fetch(ticket), TicketException.WRONG_TICKET_MSG);
     }
 
 

@@ -12,7 +12,8 @@ public class ParkingBoyTest {
     public void should_return_ticket_given_a_car_when_park() {
         //Given
         ParkingLot parkingLot = new ParkingLot();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Car car = new Car();
         //When
         Ticket ticket = parkingBoy.park(car);
@@ -23,9 +24,10 @@ public class ParkingBoyTest {
     @Test
     public void should_return_the_car_when_fetch_given_a_ticket() {
         //Given
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Ticket ticket = parkingBoy.park(car);
         //When
         Car myCar = parkingBoy.fetch(ticket);
@@ -38,7 +40,8 @@ public class ParkingBoyTest {
         //Given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         parkingBoy.park(car);
         Ticket ticket = new Ticket();
         //When
@@ -55,8 +58,9 @@ public class ParkingBoyTest {
     @Test
     public void should_return_right_car_when_fetch_given_tickets() {
         //Given
-        ParkingLot parkingLot = new ParkingLot();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingLot parkingLot = new ParkingLot(1);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Car car1 = new Car();
         Car car2 = new Car();
         Ticket ticket1 = parkingBoy.park(car1);
@@ -72,8 +76,9 @@ public class ParkingBoyTest {
     @Test
     public void should_return_null_when_fetch_given_a_used_ticket() {
         //Given
-        ParkingLot parkingLot = new ParkingLot();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingLot parkingLot = new ParkingLot(1);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);;
         Car car = new Car();
         Ticket ticket = parkingBoy.park(car);
         parkingBoy.fetch(ticket);
@@ -89,50 +94,53 @@ public class ParkingBoyTest {
     }
 
     @Test
-    public void should_return_null_when_park_given_no_position_parking() {
+    public void should_throw_exception_when_park_given_no_position_parking() {
         //Given
         ParkingLot parkingLot = new ParkingLot();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         IntStream.range(0, 10).forEach(i -> parkingBoy.park(new Car()));
         Car car = new Car();
         //When
-        Ticket ticket = parkingBoy.park(car);
         //Then
-        assertNull(ticket);
+        assertThrows(ParkingLotException.class, () -> parkingBoy.park(new Car()), ParkingLotException.NOT_ENOUGH_POSITION_MSG);
     }
 
     @Test
     public void should_throw_exception_when_park_given_unrecognized_ticket() {
         //Given
         ParkingLot parkingLot = new ParkingLot();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Ticket ticket = new Ticket();
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingBoy.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+        assertThrows(TicketException.class, () -> parkingBoy.fetch(ticket), TicketException.WRONG_TICKET_MSG);
     }
 
     @Test
     public void should_throw_exception_when_park_given_wrong_ticket() {
         //Given
         ParkingLot parkingLot = new ParkingLot();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Ticket ticket = new Ticket();
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingBoy.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+        assertThrows(TicketException.class, () -> parkingBoy.fetch(ticket), TicketException.WRONG_TICKET_MSG);
     }
 
     @Test
     public void should_throw_exception_when_park_given_reused_ticket() {
         //Given
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLot(parkingLot);
         Ticket ticket = parkingBoy.park(car);
         parkingBoy.fetch(ticket);
         //When
         //Then
-        assertThrows(RuntimeException.class, () -> parkingBoy.fetch(ticket), UnrecognizedException.WRONG_TICKET_MSG);
+        assertThrows(TicketException.class, () -> parkingBoy.fetch(ticket), TicketException.WRONG_TICKET_MSG);
     }
 }

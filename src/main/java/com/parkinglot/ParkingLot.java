@@ -3,34 +3,53 @@ package com.parkinglot;
 import java.util.HashMap;
 
 public class ParkingLot {
-    public static final String UNRECOGNIZED_PARKING_TICKET_MSG = "Unrecognized parking ticket";
     private HashMap<Ticket, Car> parkingRecords = new HashMap<>();
 
-    private int capacity;
+    private Integer id = 0;
+
+    private int capacity = 10;
+
+    private int carAmount = 0;
 
     public ParkingLot() {
-        capacity = 10;
+    }
+
+    public ParkingLot(Integer id) {
+        this.id = id;
+    }
+
+    public ParkingLot(Integer id, int capacity) {
+        this.id = id;
+        this.capacity = capacity;
+    }
+
+    public int getCarAmount() {
+        return carAmount;
     }
 
     public Ticket park(Car car) {
-        if (capacity == 0) {
+        if (carAmount >= capacity) {
             return null;
         }
-        Ticket ticket = new Ticket();
+        Ticket ticket = new Ticket(id);
         parkingRecords.put(ticket, car);
-        capacity--;
+        carAmount++;
         return ticket;
     }
 
     public Car fetch(Ticket ticket) {
         if (ticket.isUsed()) {
-            throw UnrecognizedException.reusedTicket();
+            throw TicketException.reusedTicket();
         }
         if (!parkingRecords.containsKey(ticket)) {
-            throw UnrecognizedException.wrongTicket();
+            throw TicketException.wrongTicket();
         }
         ticket.setUsed(true);
-        capacity++;
+        carAmount--;
         return parkingRecords.remove(ticket);
+    }
+
+    public boolean isFull() {
+        return carAmount >= capacity;
     }
 }
