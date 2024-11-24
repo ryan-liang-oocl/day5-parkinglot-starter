@@ -1,5 +1,7 @@
 package com.parkinglot;
 
+import com.parkinglot.parkingstrategy.SmartParkingStrategy;
+import com.parkinglot.parkingstrategy.SuperParkingStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +13,7 @@ public class SuperParkingBoyTest {
         //Given
         ParkingLot parkingLot1 = new ParkingLot(1);
         ParkingLot parkingLot2 = new ParkingLot(2);
-        ParkingBoy parkingBoy = new SuperParkingBoy();
+        ParkingBoy parkingBoy = new ParkingBoy(new SuperParkingStrategy());
         parkingBoy.addParkingLot(parkingLot1);
         parkingBoy.addParkingLot(parkingLot2);
         Car car = new Car();
@@ -26,7 +28,7 @@ public class SuperParkingBoyTest {
         //Given
         ParkingLot parkingLot1 = new ParkingLot(1, 3);
         ParkingLot parkingLot2 = new ParkingLot(2, 4);
-        ParkingBoy parkingBoy = new SuperParkingBoy();
+        ParkingBoy parkingBoy = new ParkingBoy(new SuperParkingStrategy());
         parkingBoy.addParkingLot(parkingLot1);
         parkingBoy.addParkingLot(parkingLot2);
         parkingBoy.park(new Car());
@@ -44,7 +46,7 @@ public class SuperParkingBoyTest {
         //Given
         ParkingLot parkingLot1 = new ParkingLot(1, 1);
         ParkingLot parkingLot2 = new ParkingLot(2, 1);
-        ParkingBoy parkingBoy = new SuperParkingBoy();
+        ParkingBoy parkingBoy = new ParkingBoy(new SuperParkingStrategy());
         parkingBoy.addParkingLot(parkingLot1);
         parkingBoy.addParkingLot(parkingLot2);
         Car previousCar = new Car();
@@ -64,7 +66,7 @@ public class SuperParkingBoyTest {
         //Given
         ParkingLot parkingLot1 = new ParkingLot(1, 1);
         ParkingLot parkingLot2 = new ParkingLot(2, 1);
-        ParkingBoy parkingBoy = new SuperParkingBoy();
+        ParkingBoy parkingBoy = new ParkingBoy(new SuperParkingStrategy());
         parkingBoy.addParkingLot(parkingLot1);
         parkingBoy.addParkingLot(parkingLot2);
         parkingBoy.park(new Car());
@@ -79,7 +81,7 @@ public class SuperParkingBoyTest {
         //Given
         ParkingLot parkingLot1 = new ParkingLot(1, 1);
         ParkingLot parkingLot2 = new ParkingLot(2, 1);
-        ParkingBoy parkingBoy = new SuperParkingBoy();
+        ParkingBoy parkingBoy = new ParkingBoy(new SuperParkingStrategy());
         parkingBoy.addParkingLot(parkingLot1);
         parkingBoy.addParkingLot(parkingLot2);
         Ticket ticket = parkingBoy.park(new Car());
@@ -94,7 +96,7 @@ public class SuperParkingBoyTest {
         //Given
         ParkingLot parkingLot1 = new ParkingLot(1, 1);
         ParkingLot parkingLot2 = new ParkingLot(2, 1);
-        ParkingBoy parkingBoy = new SuperParkingBoy();
+        ParkingBoy parkingBoy = new ParkingBoy(new SuperParkingStrategy());
         parkingBoy.addParkingLot(parkingLot1);
         parkingBoy.addParkingLot(parkingLot2);
         parkingBoy.park(new Car());

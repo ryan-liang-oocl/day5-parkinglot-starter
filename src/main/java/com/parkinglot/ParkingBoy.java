@@ -1,11 +1,22 @@
 package com.parkinglot;
 
+import com.parkinglot.parkingstrategy.FirstAvailableParkingStrategy;
+import com.parkinglot.parkingstrategy.ParkingStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingBoy {
     protected List<ParkingLot> parkingLotList;
     protected List<Ticket> ticketList;
+
+    private ParkingStrategy parkingStrategy = new FirstAvailableParkingStrategy();
+
+    public ParkingBoy(ParkingStrategy parkingStrategy) {
+        parkingLotList = new ArrayList<>();
+        ticketList = new ArrayList<>();
+        this.parkingStrategy = parkingStrategy;
+    }
 
     public ParkingBoy() {
         parkingLotList = new ArrayList<>();
@@ -17,15 +28,10 @@ public class ParkingBoy {
     }
 
     public Ticket park(Car car) {
-        return parkingLotList.stream()
-                .filter(parkingLot -> !parkingLot.isFull())
-                .findFirst()
-                .map(parkingLot -> {
-                    Ticket ticket = parkingLot.park(car);
-                    ticketList.add(ticket);
-                    return ticket;
-                })
-                .orElseThrow(ParkingLotException::notEnoughPosition);
+        ParkingLot selectedParkingLot = parkingStrategy.selectParkingLot(parkingLotList);
+        Ticket ticket = selectedParkingLot.park(car);
+        ticketList.add(ticket);
+        return ticket;
     }
 
     public Car fetch(Ticket ticket) {
