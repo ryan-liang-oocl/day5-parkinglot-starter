@@ -34,4 +34,5 @@ public class ParkingBoy {
         }
         return parkingLotList.get(ticket.getParkingLotId() - 1).fetch(ticket);
     }
+
 }

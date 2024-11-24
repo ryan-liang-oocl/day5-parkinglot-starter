@@ -56,4 +56,8 @@ public class ParkingLot {
     public int getAvailablePosition() {
         return capacity - carAmount;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }
