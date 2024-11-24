@@ -52,4 +52,8 @@ public class ParkingLot {
     public boolean isFull() {
         return carAmount >= capacity;
     }
+
+    public int getAvailablePosition() {
+        return capacity - carAmount;
+    }
 }

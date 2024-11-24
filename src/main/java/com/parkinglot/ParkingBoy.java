@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingBoy {
-    private List<ParkingLot> parkingLotList;
-    private List<Ticket> ticketList;
+    protected List<ParkingLot> parkingLotList;
+    protected List<Ticket> ticketList;
 
     public ParkingBoy() {
         parkingLotList = new ArrayList<>();
@@ -17,14 +17,15 @@ public class ParkingBoy {
     }
 
     public Ticket park(Car car) {
-        for (ParkingLot parkingLot : parkingLotList) {
-            if (!parkingLot.isFull()) {
-                Ticket ticket = parkingLot.park(car);
-                ticketList.add(ticket);
-                return ticket;
-            }
-        }
-        throw ParkingLotException.notEnoughPosition();
+        return parkingLotList.stream()
+                .filter(parkingLot -> !parkingLot.isFull())
+                .findFirst()
+                .map(parkingLot -> {
+                    Ticket ticket = parkingLot.park(car);
+                    ticketList.add(ticket);
+                    return ticket;
+                })
+                .orElseThrow(ParkingLotException::notEnoughPosition);
     }
 
     public Car fetch(Ticket ticket) {
